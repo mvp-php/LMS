@@ -37,6 +37,7 @@ return [
   'commonExist'=>':attribute already exist',
   'profile_update'=>'Profile  updated successfully!',
   'user_reactive'=>'User reactive successfully!',
+  'commonSuccessUpdate'=>':attribute updated successfully!'
   
 ];
 

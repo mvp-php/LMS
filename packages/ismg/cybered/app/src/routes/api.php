@@ -28,7 +28,7 @@ Route::group(['prefix' => 'v1',], function () {
             $route->post('call-update-password','Common\ProfileController@callUpdatePassword');
             $route->get('call-user-profile','Common\ProfileController@callProfileDetail');
             $route->post('profile-update','Common\ProfileController@callProfileUpdate');
-            
+            $route->post('image-upload','Common\ProfileController@callImageUpload');
 
             
             $route->namespace('Admin')->group(function ($admin_route) {
@@ -66,13 +66,13 @@ Route::group(['prefix' => 'v1',], function () {
                 $admin_route->post('add-sub-category', 'CategoryController@callAddSubCategory');
                 $admin_route->get('category', 'CategoryController@getAllCategorys');
                 $admin_route->get('get-all-sub-category','CategoryController@callAllSubCategorys');
-                $admin_route->get('get-sub-category/{id}','CategoryController@getSubCategoryById');
-                $admin_route->post('update-sub-category','CategoryController@updateSubCategory');
+                $admin_route->get('get-sub-category/{id}','CategoryController@callEditSubCategoryDetail');
+                $admin_route->post('update-sub-category','CategoryController@callUpdateSubCategory');
                 $admin_route->post('category-bulk-delete','CategoryController@bulkCategoryDelete');
                 $admin_route->get('call-allcategory-list', 'CategoryController@callAllCategoryList');
                 
                 $admin_route->get('call-subcategory-list', 'CategoryController@callSubCategoryList');
-
+               
                 
             });
             

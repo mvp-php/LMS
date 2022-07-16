@@ -33,9 +33,9 @@ class Role extends Model
     }
 
     public static function getRoleList($search){
-        $query  = Role::selectRaw("'' as key,id,title,'' as no_of_user,created_at,is_system_role")->where('activated',1);
+        $query  = Role::selectRaw("id,title,created_at,is_system_role")->where('activated',1);
         if($search !=""){
-            $query->whereRaw("LOWER(title) LIKE '%".strtolower($search)."%'")->orwhereDate('created_at',UtilityHelper::getConvertMDYToYMD($search));
+            $query->whereRaw("LOWER(title) LIKE '%".strtolower($search)."%' or DATE_FORMAT('created_at','%Y-%m-%d') ='".date('Y-m-d',strtotime($search))."'");
         }
             
         $query  = $query->orderBy('created_at','desc')->paginate(10);
@@ -66,7 +66,7 @@ class Role extends Model
     }
 
     public static function getSystemRole(){
-        $query = Role::selectRaw('id')->where('activated',1)->where('is_system_role',0)->get();
+        $query = Role::selectRaw('id')->where('activated',1)->where('is_system_role',1)->get();
         return $query;
     }
 

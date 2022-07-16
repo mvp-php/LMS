@@ -40,7 +40,7 @@ return $mysql;
     }
     public static function getAllData($search)
     {
-        $query = Category::selectRaw("'' as key,id,title,description,created_at,parent_category_id")->whereNull('parent_category_id')->whereNull('deleted_at');
+        $query = Category::selectRaw("id,title,description,created_at,parent_category_id")->whereNull('parent_category_id')->whereNull('deleted_at');
         if($search !=""){
             $query->whereRaw("LOWER(title) LIKE '%".strtolower($search)."%'")->orwhereDate('created_at',UtilityHelper::getConvertMDYToYMD($search));
         }
@@ -59,7 +59,7 @@ return $mysql;
 
     public static function getAllSubcategoryList($parent_category_id,$search)
     {
-        $query = Category::selectRaw("'' as key,id,title,description,created_at")->where('parent_category_id',$parent_category_id)->whereNull('deleted_at');
+        $query = Category::selectRaw("id,title,description,created_at")->where('parent_category_id',$parent_category_id)->whereNull('deleted_at');
         if($search !=""){
             $query->whereRaw("LOWER(title) LIKE '%".strtolower($search)."%'")->orwhereDate('created_at',UtilityHelper::getConvertMDYToYMD($search));
         }

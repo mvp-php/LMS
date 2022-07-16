@@ -88,7 +88,7 @@ class UserController extends  BaseController
 
             if (trim($getRoleDetails->flag) == 'Student' && $getRoleDetails->is_system_role == 1) {
                 UserCustomPayment::saveData(array('user_id' => $userDetails, 'entity_id' => $request->entity_id, 'entity_type' => 'PaymentPlan', 'price' => $request->amount, 'valid_from' => UtilityHelper::convertMDYToYMD($request->valid_from), 'valid_till' => UtilityHelper::convertMDYToYMD($request->valid_till), 'payment_url' => ''));
-            } else if (trim($getRoleDetails->flag) == 'Instuctor' && $getRoleDetails->is_system_role == 1) {
+            } else if (trim($getRoleDetails->flag) == 'Instructor' && $getRoleDetails->is_system_role == 1) {
                 if ($request->valid_from != '') {
                     $fromDate = UtilityHelper::convertMDYToYMD($request->valid_from);
                     $toDate = UtilityHelper::convertMDYToYMD($request->valid_till);
@@ -106,9 +106,10 @@ class UserController extends  BaseController
                 'username' => $request->first_name . ' ' . $request->last_name,
                 'subject' => 'Welcome Email',
                 'user_id' => $oktaDetails['id'],
-                'type' => 'reqister'
+                'type' => 'reqister',
+                'sub_type'=>'admin'
             ];
-            $mailstatus = MailHelper::sendMail($request->email, $details);
+            // $mailstatus = MailHelper::sendMail($request->email, $details);
             $this->callEntityLog($userDetails, 'Add', $request->all());
             return response()->json(['response_msg' => trans('package_lang::messages.userSuccess'),  'data' => array()], $this->successStatus);
         } else {
@@ -177,7 +178,7 @@ class UserController extends  BaseController
             UserCustomPayment::SoftDelete(array(), array('user_id' => $request->id));
         }
 
-        if (trim($getRoleDetails->flag) == 'Instuctor' && $getRoleDetails->is_system_role == 1) {
+        if (trim($getRoleDetails->flag) == 'Instructor' && $getRoleDetails->is_system_role == 1) {
             $getInstructor = Instructor::getInstructorExistOrNot($request->id);
 
             if ($request->valid_from != "") {
@@ -220,7 +221,7 @@ class UserController extends  BaseController
         $save = User::SoftDelete(array(), array('id' => $request->id));
         if ($save) {
             $this->callEntityLog($request->id, 'Delete', array());
-            return response()->json(['response_msg' => trans('package_lang::messages.loginSuccess'),  'data' => array(array('id' => $save))], $this->successStatus);
+            return response()->json(['response_msg' => trans('package_lang::messages.userDelete'),  'data' => array(array('id' => $save))], $this->successStatus);
         } else {
             return response()->json(['response_msg' => trans('package_lang::messages.error_msg'),  'data' => array()], $this->errorStatus);
         }

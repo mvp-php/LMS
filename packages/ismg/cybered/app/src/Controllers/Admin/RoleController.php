@@ -193,8 +193,10 @@ class RoleController extends  BaseController
         $this->existingRole($val->id, $request->admin);
         Role::updateData(array('flag' => "Student", 'is_system_role' => 1), array('id' => $request->student));
         $this->existingRole($val->id, $request->student);
-        Role::updateData(array('flag' => "Instuctor", 'is_system_role' => 1), array('id' => $request->instructor));
+        Role::updateData(array('flag' => "Instructor", 'is_system_role' => 1), array('id' => $request->instructor));
         $this->existingRole($val->id, $request->instructor);
+
+        return response()->json(['response_msg' => trans('package_lang::messages.success_res'),  'data' => array()], $this->successStatus);
       //  $this->callEntityLog("", 'Set Default Role', $request->all());
     }
 

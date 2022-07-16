@@ -18,7 +18,7 @@ class AuthController extends  BaseController
 
     public function callLogin(LoginRequest $request)
     {
- 
+       
         $response = OktaHelper::login($request->email, $request->password);
 
         if (isset($response['status']) && $response['status'] == 'SUCCESS') {

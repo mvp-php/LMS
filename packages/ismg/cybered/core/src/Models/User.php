@@ -65,7 +65,7 @@ class User extends Authenticatable
     public static function getUserList($search){
      
         $auth = auth()->user();
-        $query = User::selectRaw("'' as key,users.id,CONCAT(users.first_name,' ',users.last_name) as first_name,users.email,users.created_at")->with('userRoleRelationShip.roleRelationShip')->whereNull('users.deleted_at');
+        $query = User::selectRaw("users.id,CONCAT(users.first_name,' ',users.last_name) as first_name,users.email,users.created_at")->with('userRoleRelationShip.roleRelationShip')->whereNull('users.deleted_at')->where('users.id','!=',$auth['id']);
         if($search !=""){
             $query->whereRaw("LOWER(CONCAT(users.first_name,' ',users.last_name)) LIKE '%".strtolower($search)."%' OR LOWER(users.email) LIKE '".strtolower($search)."' ")
             ->orwhereDate('users.created_at',UtilityHelper::getConvertMDYToYMD($search))->orwhereHas('userRoleRelationShip.roleRelationShip', function($q)use($search){

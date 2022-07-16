@@ -58,4 +58,19 @@ class ProfileController extends  BaseController
             return response()->json(['response_msg' => trans('package_lang::messages.password_change_success'),  'data' => array()], $this->successStatus);
         }
     }
+    public function callImageUpload(Request $request){
+     
+        $img = '';
+        if ($request->file('file') != '') {
+            $files = $path = $request->file('file');
+            $name = time() . 'user.' . $files->getClientOriginalExtension();
+            $destination = public_path($request->upload_folder);
+            $files->move($destination, $name);
+            $img = $name;
+            $final_response = array('response'=>$img);
+            return response()->json(['response_msg' =>"Success",  'data' => array($final_response)], $this->successStatus);
+        }
+
+        
+    }
 }
