@@ -1,0 +1,32 @@
+{
+    "name": "cybered/core",
+    "description": "Core Package to support CyberEd APIs for cybered.io admin panel and website",
+    "authors": [
+        {
+            "name": "Jay Pandya",
+            "email": "jay.pandya@wishtreetech.com"
+        }
+    ],
+    
+    "require": {
+
+    },
+    "require-dev": {
+        
+    },
+    "autoload": {
+        "psr-4": {
+           
+            "CyberEd\\Core\\": "packages/ismg/cybered/core/src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CyberEd\\Core\\CoreServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
