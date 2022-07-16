@@ -27,7 +27,8 @@ return new class extends Migration
             $table->tinyInteger('verified')->nullable();
             $table->tinyInteger('activated')->nullable();
             $table->longText('bio')->nullable();
-            
+            $table->string('remember_token',100)->nullable();
+            $table->longText('user_token')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
