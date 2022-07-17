@@ -11,11 +11,10 @@ class Category extends Model
     public $table = "categories";
     protected $casts =['id'=>'string'];
     public $fillable = ['id', "parent_category_id", 'title', 'description','image_name','activated', "created_at","updated_at","deleted_at"];
-    public function categoryRelationShip(){
-        // return $this->belongsTo(Category::class,'parent_category_id','id');
-        return $this->belongsTo('CyberEd\Core\Models\Category', 'parent_category_id');
+    
+    public function categoryRelation(){
+        return $this->belongsTo(Category::class , 'parent_category_id');
     }
-   
     public static function updateData($data, $where)
     {
         $data['updated_at'] = date('Y-m-d H:i:s');
@@ -40,9 +39,9 @@ return $mysql;
     }
     public static function getAllData($search)
     {
-        $query = Category::selectRaw("id,title,description,created_at,parent_category_id")->whereNull('parent_category_id')->whereNull('deleted_at');
+        $query = Category::selectRaw("id,title,description,created_at,parent_category_id")->whereNull('parent_category_id');
         if($search !=""){
-            $query->whereRaw("LOWER(title) LIKE '%".strtolower($search)."%'")->orwhereDate('created_at',UtilityHelper::getConvertMDYToYMD($search));
+            $query->whereRaw("LOWER(title) LIKE '%".strtolower($search)."%' OR  description LIKE '%".strtolower($search)."%' ")->orwhereDate('created_at',UtilityHelper::getConvertMDYToYMD($search));
         }
         
         return $query = $query->OrderBy('id', 'desc')->paginate(10);
@@ -57,14 +56,6 @@ return $mysql;
         return Category::where('id', $id)->first();
     }
 
-    public static function getAllSubcategoryList($parent_category_id,$search)
-    {
-        $query = Category::selectRaw("id,title,description,created_at")->where('parent_category_id',$parent_category_id)->whereNull('deleted_at');
-        if($search !=""){
-            $query->whereRaw("LOWER(title) LIKE '%".strtolower($search)."%'")->orwhereDate('created_at',UtilityHelper::getConvertMDYToYMD($search));
-        }
-        
-        return $query = $query->OrderBy('id', 'desc')->paginate(10);
-    }
+   
     
 }

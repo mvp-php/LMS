@@ -19,6 +19,7 @@ class CategoryController extends  BaseController
 
     public function callCategoryList(Request $request)
     {
+        
         $categoryData = Category::getAllData($request->search);
         if (count($categoryData) > 0) {
             $statusMsg = trans('package_lang::messages.success_res');
@@ -100,6 +101,7 @@ class CategoryController extends  BaseController
     {
         $details = $this->commonDetails($id);
         if ($details) {
+          
             return response()->json(['response_msg' => trans('package_lang::messages.success_res'),  'data' => $details]);
         } else {
             return response()->json(['response_msg' => trans('package_lang::messages.error_msg'),  'data' => array()]);
@@ -128,8 +130,10 @@ class CategoryController extends  BaseController
         if (count($bulkId) > 0) {
             $save = 0;
             foreach ($bulkId as $val) {
-                $save = Category::SoftDelete(array(), array('id' => $val));
                 $getCategoryDetails=$this->commonDetails($val);
+                $save = Category::SoftDelete(array(), array('id' => $val));
+                
+              
                 $parent_category_id ="";
                 if($getCategoryDetails->parent_category_id  !=""){
                     $parent_category_id  =$getCategoryDetails->parent_category_id;
@@ -155,7 +159,7 @@ class CategoryController extends  BaseController
     function callSubCategoryList(Request $request)
     {
         $parentCategoryId = $request->parentCategoryId;
-        $query = Category::getAllSubcategoryList($parentCategoryId, $request->search);
+        $query = SubCategory::getAllSubcategoryList($parentCategoryId, $request->search);
         if (count($query) > 0) {
             $statusMsg = trans('package_lang::messages.success_res');
         } else {

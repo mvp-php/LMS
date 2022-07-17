@@ -41,6 +41,7 @@ class UserController extends  BaseController
     {
 
         $userList = User::getUserList($request->search);
+        
         if (count($userList) > 0) {
             $statusMsg = trans('package_lang::messages.success_res');
         } else {

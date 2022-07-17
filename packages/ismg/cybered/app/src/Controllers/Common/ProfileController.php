@@ -23,7 +23,7 @@ class ProfileController extends  BaseController
     public  function callProfileUpdate(ProfileUpdateRequest  $request)
     {
         $auth = auth()->user();
-        return $request->all();
+      
         $checkEmailExistOrNot = User::checkEmailExistOrNot($request->email, $auth['id']);
         if ($checkEmailExistOrNot != 0) {
             return response()->json(['response_msg' => trans('package_lang::messages.emailExist'),  'data' => array()], $this->validationStatus);
@@ -38,6 +38,8 @@ class ProfileController extends  BaseController
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
+                'bio' => $request->bio,
+                'profile_image_name' => $request->profile_image_name,
 
             );
 

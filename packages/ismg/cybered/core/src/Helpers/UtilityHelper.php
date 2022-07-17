@@ -24,8 +24,9 @@ class UtilityHelper
     }
 
     public static function getConvertMDYToYMD($date){
+      
         try {
-         
+           
             return Carbon::parse($date)->format('Y-m-d');
         } catch (\Exception $e) {
             return '1970-01-01';

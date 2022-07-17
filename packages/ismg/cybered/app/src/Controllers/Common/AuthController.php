@@ -85,7 +85,7 @@ class AuthController extends  BaseController
             $path = "dropzoneimages/";
             $imageName = time() . '_' . rand(111, 999) . '.' . $images->getClientOriginalExtension();
             $images->move(storage_path($path), $imageName);
-            $name =   env('APP_URL').'/'.$path . '' . $imageName;
+            $name =   storage_path().'/'.$path . '' . $imageName;
             $testaray = $name;
             $n++;
             if ($testaray != '') {
