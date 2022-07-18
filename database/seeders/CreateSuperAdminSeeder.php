@@ -18,6 +18,7 @@ class CreateSuperAdminSeeder extends Seeder
      */
     public function run()
     {
+      
         $final_array = array('first_name' => 'Cybered', 'last_name' => 'Ed', 'email' => 'admin@cybered.com', 'password' => 'Newpass123!', 'mobile_no' => '1234567890');
        // $getUserDetails=User::getEmail('admin@cybered.com');
         $getOktaDetails = OktaHelper::getUserDetailsByEmail($final_array['email']);
