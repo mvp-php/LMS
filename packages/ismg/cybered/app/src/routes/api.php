@@ -73,6 +73,8 @@ Route::group(['prefix' => 'v1',], function () {
                 
                 $admin_route->get('call-subcategory-list', 'CategoryController@callSubCategoryList');
                
+                $admin_route->get('assignment-list', 'AssignmentManagementController@callAssignmentList');
+                $admin_route->post('assignment-save', 'AssignmentManagementController@callSaveAssignment');
                 
             });
             
