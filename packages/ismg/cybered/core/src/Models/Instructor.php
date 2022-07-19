@@ -40,5 +40,10 @@ class Instructor extends Model
         return $query;
     }
 
+    public static function getAllData(){
+        $query = Instructor::where('activated','1')->get();
+        return $query;
+    }
+
     
 }

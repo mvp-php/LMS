@@ -74,6 +74,7 @@ Route::group(['prefix' => 'v1',], function () {
                 $admin_route->get('call-subcategory-list', 'CategoryController@callSubCategoryList');
                 
                 $admin_route->get('call-courses-list', 'CoursesController@callCoursesList');
+                $admin_route->get('call-instructors-list', 'CoursesController@callInstructorsList');
                
                 
             });
