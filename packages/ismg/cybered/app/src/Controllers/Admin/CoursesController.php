@@ -2,18 +2,22 @@
 
 namespace CyberEd\App\Controllers\Admin;
 
+use Carbon\Carbon;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use CyberEd\Core\Helpers\UtilityHelper;
 use CyberEd\App\Requests\CategoryRequest;
 use CyberEd\App\Requests\CoursesRequest;
+use CyberEd\App\Requests\CoursesDetailRequest;
 use CyberEd\App\Controllers\Common\BaseController;
+use CyberEd\Core\Models\CourseModules;
 use CyberEd\Core\Models\Courses;
 use CyberEd\Core\Models\EntityCategories;
 use CyberEd\Core\Models\EntityInstructor;
 use CyberEd\Core\Models\EntityOperationLogs;
 use CyberEd\Core\Models\Instructor;
+use CyberEd\Core\Models\ModuleChapters;
 
 class CoursesController extends  BaseController
 {
@@ -74,6 +78,45 @@ class CoursesController extends  BaseController
         } else {
             return response()->json(['response_msg' => trans('package_lang::messages.error_msg'), 'data' => array()], $this->errorStatus);
         }
+    }
+    public function callAddCourseDetails(CoursesDetailRequest $request){
+        $course_detail_json = json_decode($request->course_detail_json);
+        
+        if(count($course_detail_json) > 0){
+            foreach($course_detail_json as $key){
+
+                $courseModuledata = array(
+                    'course_id' => $request->course_id,
+                    'title' => $key->title,
+                    'created_at' => date("Y-m-d H:i:s"),
+                );
+
+                $save = CourseModules::create($courseModuledata);
+                $moduleId = $save->id;
+
+                foreach($key->chapter_data as $val){
+                    $content_metadata = array();
+
+                    foreach($val->course_content as $keycontent){
+                        $content_metadata[] = $keycontent->content_data;
+                    }
+
+                    $courseChapterdata = array(
+                        'module_id' => $moduleId,
+                        'title' => $val->title,
+                        'description' => $val->description,
+                        'content_metadata' => json_encode($content_metadata),
+                        'content_type' => 'Video',
+                        'created_at' => date("Y-m-d H:i:s")
+                    );
+                    $save = ModuleChapters::create($courseChapterdata);
+                }
+            }
+            return response()->json(['response_msg' => trans('package_lang::messages.commonSuccess', ["attribute" => "Course Detail"]), 'status' => 1, 'data' => array(array('course_id' => $request->course_id))], $this->successStatus);
+        }
+
+        return response()->json(['response_msg' => trans('package_lang::messages.error_msg'), 'data' => array()], $this->errorStatus);
+        
     }
     public function callEntityLog($entity_id, $action_taken, $request_params,$parent_category_id="")
     {

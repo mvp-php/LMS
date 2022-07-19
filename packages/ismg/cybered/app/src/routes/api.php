@@ -76,6 +76,7 @@ Route::group(['prefix' => 'v1',], function () {
                 $admin_route->get('call-courses-list', 'CoursesController@callCoursesList');
                 $admin_route->get('call-instructors-list', 'CoursesController@callInstructorsList');
                 $admin_route->post('add-courses', 'CoursesController@callAddCourses');
+                $admin_route->post('add-course-details', 'CoursesController@callAddCourseDetails');
                 
             });
             
