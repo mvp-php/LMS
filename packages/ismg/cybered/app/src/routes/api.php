@@ -75,7 +75,8 @@ Route::group(['prefix' => 'v1',], function () {
                
                 $admin_route->get('assignment-list', 'AssignmentManagementController@callAssignmentList');
                 $admin_route->post('assignment-save', 'AssignmentManagementController@callSaveAssignment');
-                
+                $admin_route->post('assignment-delete','AssignmentManagementController@callDeleteAssignment');
+                $admin_route->post('assignment-bulk-delete','AssignmentManagementController@callBulkAssignmentDelete');   
             });
             
         });
