@@ -13,6 +13,7 @@ use CyberEd\Core\Models\Courses;
 use CyberEd\Core\Models\EntityCategories;
 use CyberEd\Core\Models\EntityInstructor;
 use CyberEd\Core\Models\EntityOperationLogs;
+use CyberEd\Core\Models\Instructor;
 
 class CoursesController extends  BaseController
 {
@@ -67,7 +68,7 @@ class CoursesController extends  BaseController
                 'created_at' => date("Y-m-d H:i:s"),
             );
             $saveInstructor = EntityInstructor::create($entityInstructordataArray);
-
+            $dataArray['id'] = $lastId;
             $this->callEntityLog($lastId, 'Add', $request->all());
             return response()->json(['response_msg' => trans('package_lang::messages.commonSuccess', ["attribute" => "Course"]), 'status' => 1, 'data' => array($dataArray)], $this->successStatus);
         } else {
