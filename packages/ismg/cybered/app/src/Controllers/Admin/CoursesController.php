@@ -10,6 +10,7 @@ use CyberEd\Core\Helpers\UtilityHelper;
 use CyberEd\App\Requests\CategoryRequest;
 use CyberEd\App\Requests\CoursesRequest;
 use CyberEd\App\Requests\CoursesDetailRequest;
+use CyberEd\App\Requests\CoursesPreviewRequest;
 use CyberEd\App\Controllers\Common\BaseController;
 use CyberEd\Core\Models\CourseModules;
 use CyberEd\Core\Models\Courses;
@@ -106,7 +107,7 @@ class CoursesController extends  BaseController
                         'title' => $val->title,
                         'description' => $val->description,
                         'content_metadata' => json_encode($content_metadata),
-                        'content_type' => 'Video',
+                        'content_type' => $val->content_type,
                         'created_at' => date("Y-m-d H:i:s")
                     );
                     $save = ModuleChapters::create($courseChapterdata);
@@ -118,6 +119,17 @@ class CoursesController extends  BaseController
         return response()->json(['response_msg' => trans('package_lang::messages.error_msg'), 'data' => array()], $this->errorStatus);
         
     }
+
+    public function coursePreview(CoursesPreviewRequest $request){
+        $getCourseDetail = Courses::getDataById($request->course_id);
+        if ($getCourseDetail) {
+            $statusMsg = trans('package_lang::messages.success_res');
+        } else {
+            $statusMsg = trans('package_lang::messages.no_record_available');
+        }
+        return response()->json(['response_msg' => $statusMsg,  'data' => array($getCourseDetail)], $this->successStatus);
+    }
+
     public function callEntityLog($entity_id, $action_taken, $request_params,$parent_category_id="")
     {
         $type="Category";

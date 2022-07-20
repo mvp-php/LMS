@@ -24,4 +24,9 @@ class Courses extends Model
         return $query = $query->OrderBy('id', 'desc')->paginate(10);
     }
 
+    public static function getDataById($course_id){
+        $query = Courses::selectRaw('id,title,description,image_name')->where('id',$course_id)->where('is_published','0')->first();
+        return $query;
+    }
+
 }
