@@ -72,6 +72,7 @@ Route::group(['prefix' => 'v1',], function () {
                 $admin_route->get('call-allcategory-list', 'CategoryController@callAllCategoryList');
                 
                 $admin_route->get('call-subcategory-list', 'CategoryController@callSubCategoryList');
+<<<<<<< HEAD
                 
                 $admin_route->get('call-courses-list', 'CoursesController@callCoursesList');
                 $admin_route->get('call-instructors-list', 'CoursesController@callInstructorsList');
@@ -79,6 +80,13 @@ Route::group(['prefix' => 'v1',], function () {
                 $admin_route->post('add-course-details', 'CoursesController@callAddCourseDetails');
                 $admin_route->post('course-preview', 'CoursesController@coursePreview');
                 
+=======
+               
+                $admin_route->get('assignment-list', 'AssignmentManagementController@callAssignmentList');
+                $admin_route->post('assignment-save', 'AssignmentManagementController@callSaveAssignment');
+                $admin_route->post('assignment-delete','AssignmentManagementController@callDeleteAssignment');
+                $admin_route->post('assignment-bulk-delete','AssignmentManagementController@callBulkAssignmentDelete');   
+>>>>>>> 043b37f4fef4cfbdfbd6ef2c3ea22861704f9c4e
             });
             
         });
