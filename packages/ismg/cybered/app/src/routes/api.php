@@ -78,7 +78,15 @@ Route::group(['prefix' => 'v1',], function () {
                 $admin_route->post('add-courses', 'CoursesController@callAddCourses');
                 $admin_route->post('add-course-details', 'CoursesController@callAddCourseDetails');
                 $admin_route->post('course-preview', 'CoursesController@coursePreview');
+
+
+                $admin_route->post('add-learning-path', 'LearningPathController@callAddLearningPath');
                 
+               
+                $admin_route->get('assignment-list', 'AssignmentManagementController@callAssignmentList');
+                $admin_route->post('assignment-save', 'AssignmentManagementController@callSaveAssignment');
+                $admin_route->post('assignment-delete','AssignmentManagementController@callDeleteAssignment');
+                $admin_route->post('assignment-bulk-delete','AssignmentManagementController@callBulkAssignmentDelete');   
             });
             
         });
