@@ -1,0 +1,33 @@
+{
+    "name": "cybered/app",
+    "description": "API Package for cybered.io admin panel and website",
+    "authors": [
+        {
+            "name": "Jay Pandya",
+            "email": "jay.pandya@wishtreetech.com"
+        }
+    ],
+    "require": {
+        "laravel/socialite": "^5.5",
+        "socialiteproviders/okta": "^4.2",
+        "symfony/http-client": "^6.1",
+        "symfony/mailgun-mailer": "^6.1"
+    },
+    "require-dev": {
+        
+    },
+    "autoload": {
+        "psr-4": {
+            "CyberEd\\App\\": "packages/ismg/cybered/app/src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CyberEd\\Core\\AppServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
