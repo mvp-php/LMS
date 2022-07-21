@@ -16,18 +16,35 @@ use CyberEd\App\Controllers\Common\BaseController;
 class AuthController extends  BaseController
 {
 
+    public function signUp(Request $request){
+        
+        $oktaDetails = OktaHelper::registration($request->all());
+        $oktaDetailsMaster = json_decode($oktaDetails);
+        if(isset($oktaDetailsMaster->id)){
+         
+            $final = array(
+                'okta_id'=> $oktaDetailsMaster->id,
+                'first_name'=>$request->first_name,
+                'last_name'=>$request->last_name,
+                'email'=>$request->email,
+                'mobile_number'=>$request->mobile_no
+            );
+            User::saveData($final);
+        }
+    }
+
     public function callLogin(LoginRequest $request)
     {
        
-        $response = OktaHelper::login($request->email, $request->password);
-
-        if (isset($response['status']) && $response['status'] == 'SUCCESS') {
-            $user = User::getUserDetailByOktaId($response['_embedded']['user']['id']);
+        $oktaDetailsMaster = OktaHelper::login($request->email, $request->password);
+        $response = json_decode($oktaDetailsMaster);
+        if (isset($response->status) && $response->status == 'SUCCESS') {
+            $user = User::getUserDetailByOktaId($response->_embedded->user->id);
             $authorize = Auth::loginUsingId($user->id, TRUE);
             $tokendetails =  $authorize->createToken('MyApp')->plainTextToken;
             $authorize->token = $tokendetails;
 
-            User::updateData(array('user_token' => $response['sessionToken']), array('id' => $user->id));
+            User::updateData(array('user_token' => $response->sessionToken), array('id' => $user->id));
             return response()->json(['response_msg' => trans('package_lang::messages.loginSuccess'),  'data' => array($authorize)], $this->successStatus);
         } else {
             return response()->json(['response_msg' => trans('package_lang::messages.loginError'),  'data' => array()], $this->errorStatus);
@@ -39,7 +56,9 @@ class AuthController extends  BaseController
     {
      
         $getUserDetails = OktaHelper::getUserDetailsByEmail($request->email);
-        if (isset($getUserDetails[0]['id']) && $getUserDetails[0]['id'] != '') {
+        $getUserDetailsAll = json_decode($getUserDetails,true);
+        
+        if (isset($getUserDetailsAll[0]['id']) && $getUserDetailsAll[0]['id'] != '') {
             $mailstatus = $this->sendMail($getUserDetails[0]['id'],'forgot','Password Reset Email');
            
             if ($mailstatus) {
@@ -55,8 +74,8 @@ class AuthController extends  BaseController
     {
        
         $updatePassword = OktaHelper::resetPassword($request->password, $id);
-
-        if (isset($updatePassword['status']) && $updatePassword['status'] == 'ACTIVE') {
+        $response = json_decode($updatePassword);
+        if (isset($response->statu) && $response->statu == 'ACTIVE') {
            
             $mailstatus = $this->sendMail($id,'resetPassword','Reset Password Successful');
             return response()->json(['response_msg' => trans('package_lang::messages.password_change_success'),  'data' => array()], $this->successStatus);
