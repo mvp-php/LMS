@@ -130,15 +130,12 @@ class CoursesController extends  BaseController
         return response()->json(['response_msg' => $statusMsg,  'data' => array($getCourseDetail)], $this->successStatus);
     }
 
-    public function callEntityLog($entity_id, $action_taken, $request_params,$parent_category_id="")
+    public function callEntityLog($entity_id, $action_taken, $request_params)
     {
-        $type="Category";
-        if($parent_category_id  !=""){
-            $type="SubCategory";
-        }
+
         $final_array = array(
             'entity_id' => $entity_id,
-            'entity_type' =>  $type,
+            'entity_type' =>  "Course",
             'action_taken' => $action_taken,
             'request_params' => json_encode($request_params)
         );
