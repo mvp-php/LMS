@@ -15,17 +15,27 @@ class EntityCategories extends Model
     
     public function courseRelation()
     {
-        return $this->hasmany(Courses::class,'id','entity_id');
+        return $this->hasMany(Courses::class,'id','entity_id');
     }
     
     public function courseSubCategoryrelation()
     {
-        return $this->hasmany(Category::class,'id','category_id');
+        return $this->hasMany(Category::class,'id','category_id');
     }
     
     public function courseCategoryrelation()
     {
-        return $this->belongsTo(Category::class,'id');
+       return $this->belongsTo(Category::class,'id');
     }
-
+    public static function checkExistOrNot($category_id,$entity_id){
+        $query = EntityCategories::where('category_id',$category_id)->where('entity_id',$entity_id)->where('entity_type','LearningPath');
+        $mysql =  $query->count();
+        return $mysql;
+    }
+    public static function updateData($data, $where)
+    {
+        $data['updated_at'] = date('Y-m-d H:i:s');
+        $update = EntityCategories::where($where)->update($data);
+        return $update;
+    }
 }

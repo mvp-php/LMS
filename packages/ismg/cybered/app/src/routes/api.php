@@ -80,8 +80,11 @@ Route::group(['prefix' => 'v1',], function () {
                 $admin_route->post('course-preview', 'CoursesController@coursePreview');
 
 
+                $admin_route->get('call-learning-path-list', 'LearningPathController@callLearningPathList');
                 $admin_route->post('add-learning-path', 'LearningPathController@callAddLearningPath');
-                
+                $admin_route->get('edit-learning-path-detail/{id}', 'LearningPathController@callEditLearningPathDetail');
+                $admin_route->post('update-learning-path', 'LearningPathController@callUpdateLearningPath');
+                $admin_route->post('delete-learning-path', 'LearningPathController@callDeleteLearningPath');
                
                 $admin_route->get('assignment-list', 'AssignmentManagementController@callAssignmentList');
                 $admin_route->post('assignment-save', 'AssignmentManagementController@callSaveAssignment');

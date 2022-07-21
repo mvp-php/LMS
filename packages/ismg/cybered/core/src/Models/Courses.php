@@ -18,14 +18,21 @@ class Courses extends Model
 
     public static function getAllData()
     {
+        
         $query = Courses::selectRaw("id,title,description,requirement,is_published,activated,created_at")->whereHas('entitySubCategoryRelation', function ($query) {
             $query->where('entity_type','Course');
-        })->with('entitySubCategoryRelation.courseSubCategoryrelation:id,title')->with('entitySubCategoryRelation.courseCategoryrelation:id,title');
+        })->with('entitySubCategoryRelation.courseSubCategoryrelation:id,title,parent_category_id')->with('entitySubCategoryRelation.courseSubCategoryrelation.categoryRelation');
         return $query = $query->OrderBy('id', 'desc')->paginate(10);
+        
     }
-
+    
     public static function getDataById($course_id){
         $query = Courses::selectRaw('id,title,description,image_name')->where('id',$course_id)->where('is_published','0')->first();
+        return $query;
+    }
+
+    public  static function getCourseDetailsbyId($course_id){
+        $query = Courses::where('id',$course_id)->first();
         return $query;
     }
 

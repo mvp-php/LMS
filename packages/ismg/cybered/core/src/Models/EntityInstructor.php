@@ -13,6 +13,16 @@ class EntityInstructor extends Model
     public $fillable = ['id', "instructor_id", 'entity_id', 'entity_type','activated', "created_at","updated_at","deleted_at"];
     
     
-   
+    public static function checkExistOrNot($instructor_id,$entity_id){
+        $query = EntityInstructor::where('instructor_id',$instructor_id)->where('entity_id',$entity_id)->where('entity_type','LearningPath');
+        $mysql =  $query->count();
+        return $mysql;
+    }
+    public static function updateData($data, $where)
+    {
+        $data['updated_at'] = date('Y-m-d H:i:s');
+        $update = EntityInstructor::where($where)->update($data);
+        return $update;
+    }
 
 }

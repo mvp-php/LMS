@@ -34,6 +34,7 @@ return [
   'common_select_required'=>'Select one :attribute at a time',
   'roleExist'=>'User Role Title already exists',
   'categoryExist'=>'Category already exist',
+  'learningpathExist'=>'Laerning Path already exist',
   'commonExist'=>':attribute already exist',
   'profile_update'=>'Profile  updated successfully!',
   'user_reactive'=>'User reactive successfully!',
