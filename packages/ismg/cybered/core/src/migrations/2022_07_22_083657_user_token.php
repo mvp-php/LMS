@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('user_token', function (Blueprint $table) {
             $table->id();
-            $table->string('title',255);
-            $table->text('company_description')->nullable();
-            $table->tinyInteger('activated')->default(1);
+            $table->unsignedBigInteger('user_id');
+            $table->text('device_id');
+            $table->text('auth_token');
+            $table->text('refresh_token');
+            $table->tinyInteger('remember_me')->default(0);
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('user_token');
     }
 };

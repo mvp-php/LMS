@@ -19,18 +19,17 @@ return new class extends Migration
             $table->string('first_name',255);
             $table->string('last_name',255);
             $table->string('email',100)->unique();
-            $table->string('mobile_number',12)->nullable();
+            $table->string('mobile_number',12)->unique();
             $table->string('profile_image_name',255)->nullable();
             $table->text('profile_description')->nullable();
-            $table->integer('company_id')->nullable();
-            $table->integer('designation_id')->nullable();
+            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('designation_id');
             $table->tinyInteger('verified')->nullable();
             $table->tinyInteger('activated')->nullable();
-            $table->longText('bio')->nullable();
-            $table->string('remember_token',100)->nullable();
-            $table->longText('user_token')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('designation_id')->references('id')->on('designations')->onDelete('cascade');
         });
     }
 

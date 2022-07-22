@@ -20,9 +20,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image_name')->nullable();
             $table->tinyInteger('activated')->default(1);
-            
             $table->timestamps();
 			$table->softDeletes();
+            $table->index('title');
+
         });
     }
 

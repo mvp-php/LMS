@@ -6,27 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**com
+    /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('user_custom_payments', function (Blueprint $table) {
+        Schema::create('role_user', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('entity_id');
-            $table->enum('entity_type',['PaymentPlan','Course','LearningPath']);
-            $table->float('price',10,2);
-            $table->timestamp('valid_from')->nullable();
-            $table->timestamp('valid_till')->nullable();
-            $table->longText('payment_url');
-
-
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('role_id');
             $table->tinyInteger('activated')->default(1);
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
     }
 
@@ -37,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_custom_payments');
+        Schema::dropIfExists('role_user');
     }
 };

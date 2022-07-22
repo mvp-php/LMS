@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('entity_operation_logs', function (Blueprint $table) {
+        Schema::create('payment_plans', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('entity_id');
-            $table->string('entity_type',255);
-            $table->string('action_taken',255);
-            $table->longText('request_params');
+            $table->string('title',255);
+            $table->float('price',8,2);
+            $table->tinyInteger('duration');
+            $table->longText('including_items');
+            $table->tinyInteger('activated')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entity_operation_logs');
+        Schema::dropIfExists('payment_plans');
     }
 };

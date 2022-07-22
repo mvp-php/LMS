@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('payment_plans', function (Blueprint $table) {
+        Schema::create('entity_operation_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('title',255);
-            $table->float('price',10,2);
-            $table->tinyInteger('duration');
-            $table->longText('including_items');
-            $table->tinyInteger('activated')->default(1);
+            $table->unsignedBigInteger('user_id');
+            $table->integer('entity_id');
+            $table->string('entity_type',255);
+            $table->string('action_taken',255);
+            $table->longText('request_params');
             $table->timestamps();
-            $table->softDeletes();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_plans');
+        Schema::dropIfExists('entity_operation_logs');
     }
 };

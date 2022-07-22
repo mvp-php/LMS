@@ -13,17 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('instructors', function (Blueprint $table) {
+        Schema::create('user_custom_payments', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('role_id');
-            $table->integer('approved_by');
-            $table->string('instructor_name',255);
-            $table->longText('profile_description')->nullable();
-            $table->string('profile_image_name',255)->nullable();
-            $table->float('average_rating',10,2)->nullable();
-            $table->date('valid_from');
-            $table->date('valid_till');
+            $table->integer('entity_id');
+            $table->enum('entity_type',['PaymentPlan','Course','LearningPath']);
+            $table->float('price',8,2);
+            $table->timestamp('valid_from')->nullable();
+            $table->timestamp('valid_till')->nullable();
+            $table->longText('payment_url');
             $table->tinyInteger('activated')->default(1);
             $table->timestamps();
             $table->softDeletes();
@@ -37,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('instructors');
+        Schema::dropIfExists('user_custom_payments');
     }
 };

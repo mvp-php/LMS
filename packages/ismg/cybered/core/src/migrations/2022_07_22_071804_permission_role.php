@@ -13,17 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('permissions', function (Blueprint $table) {
+        Schema::create('permission_role', function (Blueprint $table) {
             $table->id();
-            $table->string('title',255);
-            $table->text('description')->nullable();
-            $table->string('table_name',255);
-            $table->string('action_name',255);
-            $table->enum('module_name',['Course', 'LearningPath', 'Group', 'Instructor'])->nullable();
+            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('permission_id');
             $table->tinyInteger('activated')->default(1);
-           
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
         });
     }
 
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permissions');
+        Schema::dropIfExists('permission_role');
     }
 };
