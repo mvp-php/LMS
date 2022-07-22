@@ -85,7 +85,10 @@ Route::group(['prefix' => 'v1',], function () {
                 $admin_route->get('edit-learning-path-detail/{id}', 'LearningPathController@callEditLearningPathDetail');
                 $admin_route->post('update-learning-path', 'LearningPathController@callUpdateLearningPath');
                 $admin_route->post('delete-learning-path', 'LearningPathController@callDeleteLearningPath');
-               
+                $admin_route->get('call-all-courses-list', 'LearningPathController@callAllCoursesList');
+
+
+
                 $admin_route->get('assignment-list', 'AssignmentManagementController@callAssignmentList');
                 $admin_route->post('assignment-save', 'AssignmentManagementController@callSaveAssignment');
                 $admin_route->post('assignment-delete','AssignmentManagementController@callDeleteAssignment');

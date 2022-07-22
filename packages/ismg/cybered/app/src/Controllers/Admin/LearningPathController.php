@@ -158,6 +158,15 @@ class LearningPathController extends  BaseController
             return response()->json(['response_msg' => trans('package_lang::messages.error_msg'), 'data' => array()], $this->errorStatus);
         }
     }
+    public function callAllCoursesList(Request $request){
+        $coursesData = LearningPaths::getAllData();
+        if (count($coursesData) > 0) {
+            $statusMsg = trans('package_lang::messages.success_res');
+        } else {
+            $statusMsg = trans('package_lang::messages.no_record_available');
+        }
+        return response()->json(['response_msg' => $statusMsg,  'data' => $coursesData], $this->successStatus);
+    }
 
     public function callEntityLog($entity_id, $action_taken, $request_params)
     {
